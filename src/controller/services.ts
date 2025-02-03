@@ -70,7 +70,7 @@ const generateAIContent = async (prompt: string): Promise<string> => {
   return generatedText;
 };
 
-export function parseMCQs(text: string): MCQ[] {
+export function parseMCQs(text: string): MCQ[] | any {
   console.log("MCQ Text", text);
   const mcqs: MCQ[] = [];
   const mcqRegex =
@@ -90,7 +90,7 @@ export function parseMCQs(text: string): MCQ[] {
     });
   }
   console.log("MCQ Question:", mcqs);
-  return mcqs;
+  return mcqs.length > 0 ? mcqs : text;
 }
 
 export interface Question {

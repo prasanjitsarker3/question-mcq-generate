@@ -7,6 +7,7 @@ import {
   generateMCQs,
   generateShortQuestions,
 } from "./services";
+import { unlink } from "fs/promises";
 
 interface PdfFields {
   type: "MCQ" | "Short Question" | "Long Question";
@@ -25,6 +26,8 @@ export const parsePdf = async (fields: any, uploadedFile: FormidableFile) => {
     const dataBuffer = await fs.promises.readFile(uploadedFile.filepath);
     const data = await pdf(dataBuffer);
 
+    // Delete the uploaded PDF file When Text Parse
+    await unlink(uploadedFile.filepath);
     console.log("Pdf Text", data.text.slice(0, 50));
     console.log("Field", fieldData);
 
@@ -57,6 +60,8 @@ export const parsePdf = async (fields: any, uploadedFile: FormidableFile) => {
       throw new Error("Invalid type specified");
     }
   } catch (error) {
+    //Delete Pdf When Error Trow
+    await unlink(uploadedFile.filepath);
     console.error("Error parsing fields:", error);
     throw new Error(
       "Invalid fields data. Please ensure the fields are correctly formatted."
