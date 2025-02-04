@@ -8,6 +8,7 @@ import cors from "cors";
 
 const PORT = process.env.PORT || 5000;
 const UPLOAD_DIR = path.join(__dirname, "uploads");
+// const UPLOAD_DIR = path.join("/tmp", "uploads");
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR);
@@ -22,6 +23,12 @@ const setCorsHeaders = (res: ServerResponse) => {
 const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
   const { pathname } = parse(req.url || "", true);
   setCorsHeaders(res);
+
+  if (pathname === "/") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "🚀 Server is running successfully!" }));
+    return;
+  }
 
   if (req.method === "OPTIONS") {
     res.writeHead(204);

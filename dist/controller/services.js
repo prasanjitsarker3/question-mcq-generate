@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateLongQuestions = exports.parseQuestions = exports.generateShortQuestions = exports.parseMCQs = exports.generateMCQs = void 0;
+exports.generateLongQuestions = exports.generateShortQuestions = exports.generateMCQs = void 0;
+exports.parseMCQs = parseMCQs;
+exports.parseQuestions = parseQuestions;
 const generative_ai_1 = require("@google/generative-ai");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -69,7 +71,6 @@ function parseMCQs(text) {
     console.log("MCQ Question:", mcqs);
     return mcqs.length > 0 ? mcqs : text;
 }
-exports.parseMCQs = parseMCQs;
 const generateShortQuestions = async (text, language, questionType) => {
     console.log("Generating Short Questions...", questionType);
     const prompt = `Generate 5 short ${questionType} questions and answers in ${language} from the following text:
@@ -98,7 +99,6 @@ function parseQuestions(text) {
     }
     return questions;
 }
-exports.parseQuestions = parseQuestions;
 const generateLongQuestions = async (text, language, questionType) => {
     console.log("Generating Long Questions...", questionType);
     const prompt = `Generate 5 long ${questionType} questions and answers in ${language} from the following text:
